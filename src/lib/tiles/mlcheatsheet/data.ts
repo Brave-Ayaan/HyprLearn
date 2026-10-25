@@ -1,0 +1,34 @@
+import type { ReferenceEntry } from "../../components/ReferenceBrowser.svelte";
+
+export const mlEntries: ReferenceEntry[] = [
+  { id: "mse", title: "Mean Squared Error", category: "Loss functions", latex: "L = \\frac{1}{n}\\sum_{i=1}^n (y_i - \\hat{y}_i)^2", body: "Standard loss for regression. Penalizes large errors quadratically; sensitive to outliers.", tags: ["regression"] },
+  { id: "mae", title: "Mean Absolute Error", category: "Loss functions", latex: "L = \\frac{1}{n}\\sum_{i=1}^n |y_i - \\hat{y}_i|", body: "Regression loss, more robust to outliers than MSE but non-smooth at 0.", tags: ["regression"] },
+  { id: "bce", title: "Binary Cross-Entropy", category: "Loss functions", latex: "L = -\\frac{1}{n}\\sum_{i=1}^n \\left[y_i\\log\\hat{y}_i + (1-y_i)\\log(1-\\hat{y}_i)\\right]", body: "Standard loss for binary classification with a sigmoid output.", tags: ["classification"] },
+  { id: "cce", title: "Categorical Cross-Entropy", category: "Loss functions", latex: "L = -\\sum_{i=1}^n \\sum_{c=1}^{C} y_{i,c}\\log\\hat{y}_{i,c}", body: "Multi-class classification loss, paired with a softmax output.", tags: ["classification"] },
+  { id: "hinge", title: "Hinge Loss", category: "Loss functions", latex: "L = \\max(0, 1 - y\\hat{y})", body: "Used by SVMs; encourages a margin of correctness, not just the correct sign.", tags: ["svm"] },
+  { id: "huber", title: "Huber Loss", category: "Loss functions", latex: "L_\\delta(a) = \\begin{cases} \\tfrac12 a^2 & |a|\\le\\delta \\\\ \\delta(|a|-\\tfrac12\\delta) & |a|>\\delta \\end{cases}", body: "Quadratic for small errors, linear for large ones -- a compromise between MSE and MAE.", tags: ["regression"] },
+
+  { id: "sigmoid", title: "Sigmoid", category: "Activations", latex: "\\sigma(x) = \\frac{1}{1+e^{-x}}", body: "Squashes to (0,1). Suffers from vanishing gradients for large |x|; mostly used at output layers now.", tags: ["activation"] },
+  { id: "tanh", title: "Tanh", category: "Activations", latex: "\\tanh(x) = \\frac{e^x - e^{-x}}{e^x + e^{-x}}", body: "Squashes to (-1,1), zero-centered (better gradient flow than sigmoid for hidden layers).", tags: ["activation"] },
+  { id: "relu", title: "ReLU", category: "Activations", latex: "\\mathrm{ReLU}(x) = \\max(0, x)", body: "Cheap, avoids vanishing gradients for x>0, but can \"die\" (zero gradient) for x<0.", tags: ["activation"] },
+  { id: "leaky-relu", title: "Leaky ReLU", category: "Activations", latex: "f(x) = \\max(\\alpha x, x)", body: "ReLU variant with a small slope α (e.g. 0.01) for x<0, avoiding dead neurons.", tags: ["activation"] },
+  { id: "gelu", title: "GELU", category: "Activations", latex: "\\mathrm{GELU}(x) = x\\,\\Phi(x)", body: "Smooth ReLU-like activation (Φ is the standard normal CDF), used in BERT/GPT-style transformers.", tags: ["activation"] },
+  { id: "softmax", title: "Softmax", category: "Activations", latex: "\\sigma(z)_i = \\frac{e^{z_i}}{\\sum_{j} e^{z_j}}", body: "Converts a vector of scores into a probability distribution; standard multi-class output layer.", tags: ["activation"] },
+
+  { id: "sgd", title: "SGD (+ momentum)", category: "Optimizers", latex: "v_{t} = \\beta v_{t-1} + (1-\\beta)\\nabla L,\\quad \\theta_t = \\theta_{t-1} - \\eta v_t", body: "Momentum accumulates a moving average of gradients, smoothing updates and accelerating convergence.", tags: ["optimizer"] },
+  { id: "adam", title: "Adam", category: "Optimizers", latex: "\\theta_t = \\theta_{t-1} - \\eta \\frac{\\hat{m}_t}{\\sqrt{\\hat{v}_t}+\\epsilon}", body: "Combines momentum (m) with a per-parameter adaptive learning rate from the second moment (v). The default choice for most deep learning.", tags: ["optimizer"] },
+  { id: "rmsprop", title: "RMSprop", category: "Optimizers", latex: "\\theta_t = \\theta_{t-1} - \\frac{\\eta}{\\sqrt{E[g^2]_t+\\epsilon}} g_t", body: "Adapts the learning rate per parameter using a moving average of squared gradients.", tags: ["optimizer"] },
+
+  { id: "cnn", title: "Convolutional Neural Network (CNN)", category: "Architectures", body: "Uses convolution + pooling layers to exploit spatial locality; the standard architecture family for images.", tags: ["architecture"] },
+  { id: "rnn", title: "Recurrent Neural Network (RNN)", category: "Architectures", body: "Processes sequences by feeding each step's hidden state into the next; suffers from vanishing/exploding gradients over long sequences.", tags: ["architecture", "sequence"] },
+  { id: "lstm", title: "LSTM", category: "Architectures", body: "RNN variant with gated memory cells (input/forget/output gates) designed to preserve gradients over long sequences.", tags: ["architecture", "sequence"] },
+  { id: "transformer", title: "Transformer", category: "Architectures", body: "Replaces recurrence with self-attention, letting every position attend to every other position in parallel. The basis of GPT, BERT, and most modern LLMs.", tags: ["architecture", "attention"] },
+  { id: "attention", title: "Scaled Dot-Product Attention", category: "Architectures", latex: "\\mathrm{Attention}(Q,K,V) = \\mathrm{softmax}\\!\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V", body: "The core operation of a transformer: queries attend to keys, weighting values accordingly.", tags: ["attention"] },
+  { id: "gan", title: "Generative Adversarial Network (GAN)", category: "Architectures", body: "A generator and discriminator trained in opposition: the generator tries to fool the discriminator, the discriminator tries not to be fooled.", tags: ["architecture", "generative"] },
+
+  { id: "overfitting", title: "Overfitting", category: "Core concepts", body: "A model memorizes training data (including its noise) instead of learning generalizable patterns, so validation/test performance lags training performance.", tags: ["concept"] },
+  { id: "regularization", title: "Regularization (L1/L2)", category: "Core concepts", latex: "L_{total} = L + \\lambda\\sum|\\theta| \\quad(\\mathrm{L1}) \\quad\\text{or}\\quad L + \\lambda\\sum\\theta^2 \\quad(\\mathrm{L2})", body: "Penalizes large weights to reduce overfitting. L1 encourages sparsity; L2 (\"weight decay\") shrinks weights smoothly.", tags: ["concept"] },
+  { id: "dropout", title: "Dropout", category: "Core concepts", body: "Randomly zeroes a fraction of activations during training, forcing redundancy and reducing overfitting.", tags: ["concept", "regularization"] },
+  { id: "batchnorm", title: "Batch Normalization", category: "Core concepts", body: "Normalizes layer inputs to zero mean/unit variance per batch, stabilizing and accelerating training.", tags: ["concept"] },
+  { id: "backprop", title: "Backpropagation", category: "Core concepts", body: "Computes gradients of the loss with respect to every parameter via the chain rule, propagating error backward through the network.", tags: ["concept"] },
+];

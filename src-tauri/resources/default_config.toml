@@ -1,0 +1,155 @@
+# Keybindings and layout defaults. Dotfile-style and safe to edit by hand;
+# the in-app settings UI reads and writes this same file.
+
+[layout]
+default_mode = "bsp"      # bsp | master_stack | grid
+gaps = 6
+border_width = 2
+startup_tiles = ["calculator"]
+# Ctrl+Space, not bare Space: a tile that embeds a real vim engine (Notes)
+# needs bare Space for its own Normal-mode motion ("move right"), so the WM
+# leader has to live on a modifier combo no text editor binds by default.
+# Leader mode is persistent once engaged: no timeout, it waits indefinitely
+# for the next key and only Escape cancels it.
+leader_key = "ctrl+ "
+
+# "One Dark Pro" palette (the popular VS Code theme). See
+# src/lib/theme/presets.ts for other bundled presets and how to add your own;
+# this [theme] table is just the currently-active one, editable directly too.
+[theme]
+name = "One Dark Pro"
+accent = "#61afef"
+background = "#282c34"
+foreground = "#abb2bf"
+surface = "#2c313a"
+overlay = "#323842"
+border = "#3e4451"
+success = "#98c379"
+warning = "#e5c07b"
+error = "#e06c75"
+border_radius = 6
+
+# directory left unset: notes are stored under the OS app-data directory by
+# default. Set an absolute path here (or via the in-app folder picker, once
+# built) to keep notes in, say, a synced or version-controlled folder.
+[notes]
+
+# The Vault: an Obsidian-style text file tree. directory left unset stores it
+# at <project>/vault; set an absolute path here to point it at a different
+# folder on disk instead.
+[vault]
+
+# Bare keys, active in Normal mode, intercepted before reaching the focused
+# tile. Deliberately NOT including plain hjkl: tiles need those letters free
+# for their own content (typing, function names, etc.); cross-tile focus
+# movement lives under the leader instead, same as the rest of tile management.
+[keybindings.normal]
+i = "app.enter_insert"
+":" = "app.enter_command"
+"Escape" = "app.enter_normal"
+"ctrl+h" = "tile.resize_left"
+"ctrl+j" = "tile.resize_down"
+"ctrl+k" = "tile.resize_up"
+"ctrl+l" = "tile.resize_right"
+"+" = "tile.resize_right"
+"-" = "tile.resize_left"
+"Tab" = "tile.cycle_next"
+"shift+Tab" = "tile.cycle_prev"
+
+# Keys following the leader (default: Space), active in Normal mode.
+[keybindings.leader]
+h = "tile.focus_left"
+j = "tile.focus_down"
+k = "tile.focus_up"
+l = "tile.focus_right"
+H = "tile.move_left"
+J = "tile.move_down"
+K = "tile.move_up"
+L = "tile.move_right"
+s = "tile.split_row"
+S = "tile.split_column"
+x = "tile.close"
+f = "tile.fullscreen_toggle"
+b = "layout.mode_bsp"
+m = "layout.mode_master_stack"
+g = "layout.mode_grid"
+# "o <letter>": open a tile by type, split to the side. Scales to dozens of
+# tiles without consuming top-level leader letters; anything not given a
+# shortcut here is still reachable by name through the Ctrl+K palette.
+"o c" = "tile.open.calculator"
+"o n" = "tile.open.notes"
+"o t" = "tile.open.tasks"
+"o g" = "tile.open.graphing"
+"o a" = "tile.open.cas"
+"o m" = "tile.open.matrix"
+"o l" = "tile.open.latex"
+"o u" = "tile.open.unitconverter"
+"o p" = "tile.open.constants"
+"o f" = "tile.open.formulasheet"
+"o y" = "tile.open.physicssim"
+"o b" = "tile.open.bigo"
+"o v" = "tile.open.baseconverter"
+"o r" = "tile.open.regex"
+"o d" = "tile.open.dataformatter"
+"o j" = "tile.open.gitcheatsheet"
+"o s" = "tile.open.datastructures"
+"o h" = "tile.open.hashcalc"
+"o e" = "tile.open.encoding"
+"o w" = "tile.open.passwordentropy"
+"o q" = "tile.open.cve"
+"o k" = "tile.open.network"
+"o z" = "tile.open.tensorshape"
+"o i" = "tile.open.nnviz"
+"o x" = "tile.open.tokenizer"
+"o M" = "tile.open.mlcheatsheet"
+"o F" = "tile.open.flashcards"
+"o P" = "tile.open.pomodoro"
+"o S" = "tile.open.scratchpad"
+"o O" = "tile.open.media"
+"o D" = "tile.open.calendar"
+"o ," = "tile.open.settings"
+"o ?" = "tile.open.hyprlearn"
+"o +" = "tile.open.cppcheatsheet"
+"o B" = "tile.open.physicssandbox"
+"o R" = "tile.open.coderunner"
+"o E" = "tile.open.periodictable"
+"o L" = "tile.open.gameoflife"
+"o %" = "tile.open.probability"
+"o V" = "tile.open.vault"
+"o J" = "tile.open.jwt"
+"o C" = "tile.open.classicalciphers"
+"o G" = "tile.open.gradientdescent"
+"w" = "vault.save"
+"1" = "tile.jump_to:1"
+"2" = "tile.jump_to:2"
+"3" = "tile.jump_to:3"
+"4" = "tile.jump_to:4"
+"5" = "tile.jump_to:5"
+"6" = "tile.jump_to:6"
+"7" = "tile.jump_to:7"
+"8" = "tile.jump_to:8"
+"9" = "tile.jump_to:9"
+
+# Reserved for future per-field visual-mode WM bindings; per-tile Visual
+# mode (e.g. inside notes) is owned by that tile's own embedded vim engine.
+[keybindings.visual]
+
+# Ex-commands typed after ':' in Command mode. Values are action names,
+# same registry the leader table and the Ctrl+K palette draw from.
+[keybindings.command]
+"q" = "app.close_palette_or_noop"
+"layout grid" = "layout.mode_grid"
+"layout bsp" = "layout.mode_bsp"
+"layout master" = "layout.mode_master_stack"
+"layout reset" = "layout.reset"
+"calc" = "tile.open.calculator"
+"note new" = "tile.open.notes"
+"task" = "tile.open.tasks"
+"save" = "vault.save"
+"w" = "vault.save"
+"vault" = "tile.open.vault"
+
+# Global bindings, active in every mode (Insert included).
+[keybindings.global]
+"ctrl+k" = "app.command_palette"
+"cmd+k" = "app.command_palette"
